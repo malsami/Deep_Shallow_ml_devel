@@ -21,8 +21,10 @@ pip3 install torch torchvision
 pip3 install --upgrade tensorflow
 pip3 install tensorflow-gpu
 pip3 install keras
+pip3 install -U keras-pandas
+
 # Visualization Purposes (May not be necessary here)
 pip3 install pandas
 pip3 install seaborn
 
-
+# Install pickle
