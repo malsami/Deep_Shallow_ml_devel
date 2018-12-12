@@ -19,6 +19,7 @@ pip3 install torch torchvision
 
 # Tensorflow + Keras
 pip3 install --upgrade tensorflow
+pip3 install tensorflow-gpu
 pip3 install keras
 # Visualization Purposes (May not be necessary here)
 pip3 install pandas
