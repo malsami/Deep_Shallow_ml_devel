@@ -1,0 +1,9 @@
+numpy
+pandas
+seaborn
+scikit-learn
+torchvision
+tensorflow-gpu
+keras
+keras-pandas
+
