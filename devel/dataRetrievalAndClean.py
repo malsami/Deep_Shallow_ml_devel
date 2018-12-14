@@ -32,20 +32,21 @@ three_tskst_sql_query = ('select TaskSet.Set_ID, t1.*, t2.*, t3.*, TaskSet.Succe
 
                         )
 
-sql_queries = {
+sql_queries = [
     one_tskst_sql_query, two_tskst_sql_query, three_tskst_sql_query
-}
+]
 
 
-def read_SQL(num_Tasksets, db_name = path + db_name):
+def read_SQL(num_Tasksets):
 
-    sql_query = sql_query[num_Tasksets - 1]
+    sql_query = sql_queries[num_Tasksets - 1]
     conn = sqlite3.connect(path + db_name)
 
     df = pd.read_sql_query(sql_query, conn)
 
     # Raw data for use
     return df
+
 
 def clean_data (pandas_df):
 
@@ -58,13 +59,32 @@ def clean_data (pandas_df):
 
     return raw_df.drop(columns = ID + CONSTANT_VALS)
 
+
 def build_tensors(clean_df):
 
+    training_val = clean_df
     y_tensor = torch.tensor(clean_df['Successful'].values)
-    training_val = clean_df.drop('Succesful', axis = 1)
+    training_val.drop('Successful', axis=1)
+
+    # Check pandas selecting all but one column
     x_tensor = torch.tensor(training_val.values)
 
-    return (x_tensor, y_tensor)
+    # Save the data to retrieve later
+
+    return x_tensor, y_tensor
 
 
+if __name__=="__main__":
+    df = read_SQL(2)
+    # clean_df = clean_data(df)
+    x, y = build_tensors(clean_data(df))
 
+    # Save for late for convenience. We can split later
+    x.to_pickle("data_samples_tensors.pickle")
+    y.to_pickle("data_labels_tensors.pickle")
+
+    # Save tensors with this function
+    torch.save(x)
+    
+
+    print("Data is pickled. Proceed to models")
