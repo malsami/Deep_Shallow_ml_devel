@@ -1,6 +1,8 @@
 import sqlite3
 import pandas as pd
 import torch
+from torch.utils.serialization import load_lua
+import pickle
 
 path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\'
 db_name = 'panda_v1.db'
@@ -57,10 +59,17 @@ def clean_data (pandas_df):
     ID = ["Set_ID", "Task_ID"]
     CONSTANT_VALS = ["Deadline", "Quota", "CAPS", "PKG", "CORES", "COREOFFSET", "OFFSET"]
 
-    return raw_df.drop(columns = ID + CONSTANT_VALS)
+    # pickle.dump(raw_df, open("clean_raw_data.p", "wb"))
+    raw_df.to_pickle("./clean_raw.pkl")
+
+    return raw_df.drop(columns=ID + CONSTANT_VALS)
 
 
-def build_tensors(clean_df):
+def build_tensors(clean_df, load_dataset=False):
+
+    if(load_dataset):
+        # clean_df = pickle.load(open("clean_raw_data.p","rb"))
+        clean_df = pd.read_pickle("./clean_raw.pkl")
 
     training_val = clean_df
     y_tensor = torch.tensor(clean_df['Successful'].values)
@@ -69,7 +78,11 @@ def build_tensors(clean_df):
     # Check pandas selecting all but one column
     x_tensor = torch.tensor(training_val.values)
 
+    pickle.dump(x_tensor, open("x_tensor.p","wb"))
+    pickle.dump(y_tensor, open("y_tensor.p","wb"))
     # Save the data to retrieve later
+    # torch.save('x_tensor.t7', x_tensor)
+    # torch.save('y_tensor.t7', y_tensor)
 
     return x_tensor, y_tensor
 
@@ -77,14 +90,14 @@ def build_tensors(clean_df):
 if __name__=="__main__":
     df = read_SQL(2)
     # clean_df = clean_data(df)
+    # clean_data(df)
     x, y = build_tensors(clean_data(df))
 
     # Save for late for convenience. We can split later
-    x.to_pickle("data_samples_tensors.pickle")
-    y.to_pickle("data_labels_tensors.pickle")
+    # x.to_pickle("data_samples_tensors.pickle")
+    # y.to_pickle("data_labels_tensors.pickle")
 
     # Save tensors with this function
-    torch.save(x)
-    
+    # build_tensors()
 
     print("Data is pickled. Proceed to models")
