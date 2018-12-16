@@ -79,12 +79,20 @@ def build_tensors(clean_df, load_dataset=False):
     x_tensor = torch.tensor(training_val.values)
 
     pickle.dump(x_tensor, open("x_tensor.p","wb"))
-    pickle.dump(y_tensor, open("y_tensor.p","wb"))
+    pickle.dump(y_tensor, open("y_tensor.p", "wb"))
     # Save the data to retrieve later
     # torch.save('x_tensor.t7', x_tensor)
     # torch.save('y_tensor.t7', y_tensor)
 
     return x_tensor, y_tensor
+
+
+def load_data():
+
+    data = pickle.load(open("x_tensor.p","rb"))
+    labels = pickle.load(open("y_tensor.p","rb"))
+
+    return data, labels
 
 
 if __name__=="__main__":
