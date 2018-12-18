@@ -3,6 +3,11 @@ from keras.layers import Activation
 from keras.optimizers import SGD
 from keras.layers import Dense
 
+"""
+    https://stackoverflow.com/questions/45662253/can-i-run-keras-model-on-gpu
+    Running keras on GPU 
+"""
+
 # Trying out for completeness
 class kerasFNN:
     """

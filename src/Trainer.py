@@ -32,24 +32,31 @@ def train_model(x,y,split_size):
     shallow_learning_model.train(x,y)
 
 
-def tensorflow_tranier(x,y):
+def torch_tranier(x,y):
     """TODO ADD RECURRENT NEURAL NETWORK BY INDIAN STUDENT"""
 
-    tf_model = kerasFFN()
+    input_size = x.shape[1]
+    hidden_layer_one = 16
+    hidden_layer_two = 24
+    output_layer = 1
+
+    tf_model = FFN(input_size,hidden_layer_one,hidden_layer_two,output_layer) # .cuda()
+
+    tf_model.cuda()
+    logging.info("Model created and using CUDA support")
 
 
+    """TODO Solver module"""
 
-"""TODO Solver module"""
+def tensorflow_trainer(x,y):
 
-def torch_trainer(x,y):
-
-    dataloader = DataLoader()
-
+    model = FFN()
 
 
 if __name__ == "__main__":
     logging.basicConfig(filename=path + "Deep_Shallow_ml_devel\\reports\\ml.log", level=logging.INFO)
     logging.info("Logger started")
     x_tensor, x, y_tensor, y = load_data()
-    train_model(x, y, .01)
+    # train_model(x, y, .01)
+    torch_tranier(x_tensor,y_tensor)
 
