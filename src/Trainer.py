@@ -4,7 +4,8 @@ import torch
 from models.DeepLearning.FFN import FFN
 from models.ShallowLearning.KNearestNeighbors import KNN
 from sklearn.model_selection import train_test_split
-
+from torch.utils.data import Dataset, DataLoader
+from models.DeepLearning import kerasFFN
 
 path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\'
 
@@ -29,6 +30,21 @@ def train_model(x,y,split_size):
     shallow_learning_model = KNN(3,'uniform','auto')
 
     shallow_learning_model.train(x,y)
+
+
+def tensorflow_tranier(x,y):
+    """TODO ADD RECURRENT NEURAL NETWORK BY INDIAN STUDENT"""
+
+    tf_model = kerasFFN()
+
+
+
+"""TODO Solver module"""
+
+def torch_trainer(x,y):
+
+    dataloader = DataLoader()
+
 
 
 if __name__ == "__main__":
