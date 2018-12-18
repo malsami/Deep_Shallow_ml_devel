@@ -26,6 +26,9 @@ class SVM:
     def __init__(self, C_Penalty,s_kernel,s_degree,s_kernel_cache_size,s_tolerance,s_class_weight,s_gamma
                  ):
 
-        svm.SVC(C = C_Penalty,kernel = s_kernel,degree = s_degree, cache_size = s_kernel_cache_size, tol = s_tolerance,
-                class_weight = s_class_weight,gamma=s_gamma
-                )
+        svm.SVC()
+        #svm.SVC(C = C_Penalty,kernel = s_kernel,degree = s_degree, cache_size=s_kernel_cache_size, tol = s_tolerance,
+         #       class_weight = s_class_weight,gamma=s_gamma)
+
+    def train(self):
+        print("Model is training")

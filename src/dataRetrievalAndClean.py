@@ -3,10 +3,12 @@ import pandas as pd
 import torch
 from torch.utils.serialization import load_lua
 import pickle
+import logging
+import sys
 
 path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\'
 db_name = 'panda_v1.db'
-
+num_tasks = 2
 
 one_tskst_sql_query = ( 'select TaskSet.Set_ID, Task.*, TaskSet.Successful '
                         'from Task '
@@ -39,13 +41,14 @@ sql_queries = [
 ]
 
 
-def read_SQL(num_Tasksets):
+def read_sql(num_Tasksets):
 
     sql_query = sql_queries[num_Tasksets - 1]
     conn = sqlite3.connect(path + db_name)
 
     df = pd.read_sql_query(sql_query, conn)
 
+    logging.info("Loaded data into pandas database ")
     # Raw data for use
     return df
 
@@ -62,6 +65,7 @@ def clean_data (pandas_df):
     # pickle.dump(raw_df, open("clean_raw_data.p", "wb"))
     raw_df.to_pickle("./clean_raw.pkl")
 
+    logging.info("Data is successfully cleaned and pickled")
     return raw_df.drop(columns=ID + CONSTANT_VALS)
 
 
@@ -80,9 +84,9 @@ def build_tensors(clean_df, load_dataset=False):
 
     pickle.dump(x_tensor, open("x_tensor.p","wb"))
     pickle.dump(y_tensor, open("y_tensor.p", "wb"))
-    # Save the data to retrieve later
-    # torch.save('x_tensor.t7', x_tensor)
-    # torch.save('y_tensor.t7', y_tensor)
+
+    logging.info("Tensors created and saved")
+
 
     return x_tensor, y_tensor
 
@@ -96,16 +100,13 @@ def load_data():
 
 
 if __name__=="__main__":
-    df = read_SQL(2)
-    # clean_df = clean_data(df)
-    # clean_data(df)
+    logging.basicConfig(filename=path + "Deep_Shallow_ml_devel\\reports\\ml.log", level=logging.INFO)
+    logging.info("Logger started")
+
+    num_args = str(sys.argv[1])
+
+    df = read_sql(int(num_args))
+
     x, y = build_tensors(clean_data(df))
 
-    # Save for late for convenience. We can split later
-    # x.to_pickle("data_samples_tensors.pickle")
-    # y.to_pickle("data_labels_tensors.pickle")
-
-    # Save tensors with this function
-    # build_tensors()
-
-    print("Data is pickled. Proceed to models")
+    logging.info("Data is ready. Proceed to models")
