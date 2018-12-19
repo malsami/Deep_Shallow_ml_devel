@@ -1,7 +1,6 @@
 import torch
 from torch.autograd import Variable
 
-
 # Adapted from deep learning class I2DL exercise assignments
 
 # This is a large hyperparameter tuning.
