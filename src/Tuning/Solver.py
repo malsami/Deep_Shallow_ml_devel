@@ -1,18 +1,15 @@
-from random import shuffle
-import numpy as np
-
 import torch
 from torch.autograd import Variable
 
 
-# Taken from deep learning class I2DL exercise assignments
+# Adapted from deep learning class I2DL exercise assignments
 
 # This is a large hyperparameter tuning.
 class Solver(object):
-    default_adam_args = {"lr": 1e-2, 1e-4, 1e-3
-    "betas": (.75, 0.9, 0.999),
-    "eps": 1e-8,
-    "weight_decay": 0.0, .125}
+    default_adam_args = {"lr": 1e-2,
+                         "betas": (.75, 0.9, 0.999),
+                         "eps": 1e-8,
+                         "weight_decay": 0.0}
 
     def __init__(self, optim=torch.optim.Adam, optim_args={},
                  loss_func=torch.nn.CrossEntropyLoss()):
@@ -118,7 +115,6 @@ class Solver(object):
 
                 # first_it = (i == 0)
                 # last_it = (i == num_iterations + 1)
-
 
                 if i % iter_per_epoch == iter_per_epoch - 1:  # print every 2000 mini-batches
                     print('[Epoch %d, Iteration %5d] loss: %.3f' %

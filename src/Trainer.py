@@ -7,8 +7,12 @@ from sklearn.model_selection import train_test_split
 
 # Efficient Data Loading
 from torch.utils.data import Dataset, DataLoader
-from torchvision import transforms, utils
 import torch.utils.data as data_utils
+
+
+
+#Tuning
+from src.Tuning import Solver
 
 path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\'
 
@@ -52,7 +56,7 @@ def torch_model_trainer(x,y, batch_size):
     logging.info("Model created and using CUDA support")
 
 
-def torch_optimizer(x,y,batch_size = 64):
+def torch_optimizer(model, x,y, batch_size = 64):
     """
     Class that will tune the model via training and validation data. This model makes use of the solver model (taken
     from TUM i2DL/Stanford cs231n class in which a standarad model is used to tune and effectively fit the network
@@ -74,10 +78,13 @@ def torch_optimizer(x,y,batch_size = 64):
     # DataLoader for efficient data loading and easy batching
     train_tensor = data_utils.TensorDataset(x,y)
 
-    dataloader = DataLoader(train_tensor, batch_size=batch_size, shuffle=True, num_workers=8)
+    train_data = DataLoader(train_tensor, batch_size=batch_size, shuffle=True, num_workers=8)
 
     logging.info("Data model loaded and ready for hyperparameter tuning")
     # Put into the solver module
+    solver = Solver()
+
+    solver.train(model,)
 
 
 def tensorflow_trainer(x,y):
