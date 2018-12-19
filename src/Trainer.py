@@ -9,28 +9,14 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import Dataset, DataLoader
 import torch.utils.data as data_utils
 
-
+from src.Utils import load_data
 
 #Tuning
 from src.Tuning import Solver
 
 path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\'
 
-# CUDA for PyTorch
-use_cuda = torch.cuda.is_available()
-device = torch.device("cuda:0" if use_cuda else "cpu")
 
-def load_data():
-    # For Deep Learning
-    data_tensor = pickle.load(open("x_tensor.p", "rb"))
-    labels_tensor = pickle.load(open("y_tensor.p", "rb"))
-
-    # Numpy array for sci-kit learn
-    data = data_tensor.numpy()
-    labels = labels_tensor.numpy()
-    logging.info("Stored data is loaded ")
-
-    return data_tensor, data, labels_tensor, labels
 
 
 def train_model(x,y,split_size):
@@ -93,7 +79,13 @@ def tensorflow_trainer(x,y):
 
 
 if __name__ == "__main__":
+
     logging.basicConfig(filename=path + "Deep_Shallow_ml_devel\\reports\\ml.log", level=logging.INFO)
+
+    # CUDA for PyTorch
+    use_cuda = torch.cuda.is_available()
+    device = torch.device("cuda:0" if use_cuda else "cpu")
+
     logging.info("Logger started")
     x_tensor, x, y_tensor, y = load_data()
     # train_model(x, y, .01)
