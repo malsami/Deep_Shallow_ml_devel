@@ -8,6 +8,7 @@ from keras.layers import Dense
     Running keras on GPU 
 """
 
+
 # Trying out for completeness
 class kerasFNN:
     """
@@ -26,7 +27,7 @@ class kerasFNN:
     """
     model = None
 
-    def __init__(self, hidden_layer_1 = 768, hidden_layer_2 = 364, output_layer = 1):
+    def __init__(self, hidden_layer_1=768, hidden_layer_2=364, output_layer=1):
         """
         Parameters
         ----------
@@ -47,7 +48,7 @@ class kerasFNN:
         model.add(Dense(1))
         model.add(Activation("softmax"))
 
-    def train(self,x,y,learning_rate = 0.001):
+    def train(self, x, y, learning_rate=0.001):
         """
         Compiles the static graph and the trainer together and then fits according to the inputted data
 
@@ -64,5 +65,5 @@ class kerasFNN:
         """
         sgd = SGD(lr=0.01)
         self.model.compile(loss="binary_crossentropy", optimizer=sgd,
-                      metrics=["accuracy"])
+                           metrics=["accuracy"])
         self.model.fit(x, y, epochs=1, batch_size=128, verbose=1)
