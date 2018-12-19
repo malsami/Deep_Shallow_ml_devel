@@ -4,11 +4,17 @@ import torch
 from models.DeepLearning.FFN import FFN
 from models.ShallowLearning.KNearestNeighbors import KNN
 from sklearn.model_selection import train_test_split
+
+# Efficient Data Loading
 from torch.utils.data import Dataset, DataLoader
-from models.DeepLearning import kerasFFN
+from torchvision import transforms, utils
+import torch.utils.data as data_utils
 
 path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\'
 
+# CUDA for PyTorch
+use_cuda = torch.cuda.is_available()
+device = torch.device("cuda:0" if use_cuda else "cpu")
 
 def load_data():
     # For Deep Learning
@@ -32,7 +38,7 @@ def train_model(x,y,split_size):
     shallow_learning_model.train(x,y)
 
 
-def torch_tranier(x,y):
+def torch_model_trainer(x,y, batch_size):
     """TODO ADD RECURRENT NEURAL NETWORK BY INDIAN STUDENT"""
 
     input_size = x.shape[1]
@@ -46,11 +52,37 @@ def torch_tranier(x,y):
     logging.info("Model created and using CUDA support")
 
 
-    """TODO Solver module"""
+def torch_optimizer(x,y,batch_size = 64):
+    """
+    Class that will tune the model via training and validation data. This model makes use of the solver model (taken
+    from TUM i2DL/Stanford cs231n class in which a standarad model is used to tune and effectively fit the network
+    effectively
+
+
+    Parameters
+    ----------
+    x : numpy array [N x D]
+        training set samples where n is number of samples and d is the dimension of each sample
+
+    y : numpy array [N x 1]
+        training set labels where each sample is either '1' or '0'.
+
+    batch_size: int
+        batch_size of the data. Recommendations are (32,64,128..) the most you can to max out the power of the GPU
+
+    """
+    # DataLoader for efficient data loading and easy batching
+    train_tensor = data_utils.TensorDataset(x,y)
+
+    dataloader = DataLoader(train_tensor, batch_size=batch_size, shuffle=True, num_workers=8)
+
+    logging.info("Data model loaded and ready for hyperparameter tuning")
+    # Put into the solver module
+
 
 def tensorflow_trainer(x,y):
 
-    model = FFN()
+    pass
 
 
 if __name__ == "__main__":
@@ -58,5 +90,5 @@ if __name__ == "__main__":
     logging.info("Logger started")
     x_tensor, x, y_tensor, y = load_data()
     # train_model(x, y, .01)
-    torch_tranier(x_tensor,y_tensor)
+    torch_model_trainer(x_tensor,y_tensor)
 
