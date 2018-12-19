@@ -1,7 +1,7 @@
 import pickle
 import torch
 import logging
-
+import pandas as pd
 from sklearn.model_selection import train_test_split
 
 
@@ -54,10 +54,45 @@ def train_val_test_split(x,y, train_split = .6, val_split = .2, test_split = .2)
     """
 
     # Intermediate split between train and test data
-    x_train, x_test, y_train, y_test = train_split(x, y, test_size=test_split, random_state=42, shuffle = True)
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=test_split, random_state=42, shuffle = True)
 
     # Split part of training set
-    x_train, x_val, y_train, y_val = train_split(x_train, y_train, test_size=val_split, random_state=42, shuffle = True)
+    x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=val_split, random_state=42, shuffle = True)
 
     return x_train, y_train, x_val, y_val, x_test, y_test
 
+
+def build_tensors(clean_df, load_dataset=False):
+    """
+    Turn data into pytorch tensors for deep learning training. Also pickles to file for convenience later
+
+    Parameters
+    ----------
+    clean_df: pandas datarame
+        data that is assumed to already be preprocessed
+    load_dataset : bool optional
+        Whether user wants to load in the pandas dataframe from before or pass his own in
+
+    Returns
+    -------
+    tuple (List, List)
+        Training Data and Labels as list of tensor objects
+    """
+
+    if load_dataset:
+        # clean_df = pickle.load(open("clean_raw_data.p","rb"))
+        clean_df = pd.read_pickle("./clean_raw.pkl")
+
+    training_val = clean_df
+    y_tensor = torch.tensor(clean_df['Successful'].values)
+    training_val.drop('Successful', axis=1)
+
+    # Check pandas selecting all but one column
+    x_tensor = torch.tensor(training_val.values)
+
+    pickle.dump(x_tensor, open("x_tensor.p","wb"))
+    pickle.dump(y_tensor, open("y_tensor.p", "wb"))
+
+    logging.info("Tensors created and saved")
+
+    return x_tensor, y_tensor
