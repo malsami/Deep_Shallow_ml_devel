@@ -6,6 +6,8 @@ import pickle
 import logging
 import sys
 
+from src.Utils import build_tensors, load_data
+
 path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\'
 db_name = 'panda_v1.db'
 num_tasks = 2
@@ -67,36 +69,6 @@ def clean_data (pandas_df):
 
     logging.info("Data is successfully cleaned and pickled")
     return raw_df.drop(columns=ID + CONSTANT_VALS)
-
-
-def build_tensors(clean_df, load_dataset=False):
-
-    if(load_dataset):
-        # clean_df = pickle.load(open("clean_raw_data.p","rb"))
-        clean_df = pd.read_pickle("./clean_raw.pkl")
-
-    training_val = clean_df
-    y_tensor = torch.tensor(clean_df['Successful'].values)
-    training_val.drop('Successful', axis=1)
-
-    # Check pandas selecting all but one column
-    x_tensor = torch.tensor(training_val.values)
-
-    pickle.dump(x_tensor, open("x_tensor.p","wb"))
-    pickle.dump(y_tensor, open("y_tensor.p", "wb"))
-
-    logging.info("Tensors created and saved")
-
-
-    return x_tensor, y_tensor
-
-
-def load_data():
-
-    data = pickle.load(open("x_tensor.p","rb"))
-    labels = pickle.load(open("y_tensor.p","rb"))
-
-    return data, labels
 
 
 if __name__=="__main__":
