@@ -26,7 +26,7 @@ def load_data():
     return data_tensor, data, labels_tensor, labels
 
 
-def train_val_test_split(x,y, train_split = .6, val_split = .2, test_split = .2):
+def train_val_test_split(x, y, val_split=.2, test_split=.2, to_tensor = False):
     """
     Splits according to train,validation,test
 
@@ -47,6 +47,8 @@ def train_val_test_split(x,y, train_split = .6, val_split = .2, test_split = .2)
     test_split : int optional
         how much of data will be test data
 
+    to_tensor : boolean optional
+        Whether we want the arrays to be tensors or numpy arrays. Defaulted to numpy arrays
     Returns
     -------
     tuple (List, List, List, List, List, List)
@@ -58,6 +60,18 @@ def train_val_test_split(x,y, train_split = .6, val_split = .2, test_split = .2)
 
     # Split part of training set
     x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=val_split, random_state=42, shuffle = True)
+
+    if to_tensor :
+        x_train = torch.Tensor(x_train)
+        x_val = torch.Tensor(x_val)
+        x_test = torch.Tensor(x_test)
+        #######
+        y_train = torch.Tensor(y_train)
+        y_val = torch.Tensor(y_val)
+        y_test = torch.Tensor(y_test)
+
+    else:
+        pass
 
     return x_train, y_train, x_val, y_val, x_test, y_test
 
