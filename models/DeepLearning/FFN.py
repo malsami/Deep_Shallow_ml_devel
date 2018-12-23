@@ -1,6 +1,8 @@
 from torch import nn
 import torch.nn.functional as F
 
+"""TODO Add Batch Normalization?"""
+
 
 class FFN(nn.Module):
     def __init__(self, input_size, hidden_size_1, hidden_size_2, num_classes):
@@ -51,6 +53,10 @@ class FFN(nn.Module):
         y : numpy array [N x 1]
             training set labels where each sample is either '1' or '0'.
 
+        Returns
+        -------
+        x: int
+            Classification result '1' or '0'
         """
 
         x = self.h1(x)
