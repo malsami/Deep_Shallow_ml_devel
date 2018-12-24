@@ -4,6 +4,8 @@ import logging
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\'
+
 
 def load_data():
     """
@@ -15,8 +17,8 @@ def load_data():
        """
 
     # For Deep Learning
-    data_tensor = pickle.load(open("x_tensor.p", "rb"))
-    labels_tensor = pickle.load(open("y_tensor.p", "rb"))
+    data_tensor = pickle.load(open(path + "data\\processed\\" + "x_tensor.p", "rb"))
+    labels_tensor = pickle.load(open(path + "data\\processed\\" + "y_tensor.p", "rb"))
 
     # Numpy array for sci-kit learn
     data = data_tensor.numpy()
@@ -95,7 +97,7 @@ def build_tensors(clean_df, load_dataset=False):
 
     if load_dataset:
         # clean_df = pickle.load(open("clean_raw_data.p","rb"))
-        clean_df = pd.read_pickle("./clean_raw.pkl")
+        clean_df = pd.read_pickle(path + "data\\interim\\" + "./clean_raw.pkl")
 
     training_val = clean_df
     y_tensor = torch.tensor(clean_df['Successful'].values)
@@ -104,8 +106,8 @@ def build_tensors(clean_df, load_dataset=False):
     # Check pandas selecting all but one column
     x_tensor = torch.tensor(training_val.values)
 
-    pickle.dump(x_tensor, open("x_tensor.p","wb"))
-    pickle.dump(y_tensor, open("y_tensor.p", "wb"))
+    pickle.dump(x_tensor, open(path + "data\\processed\\" + "x_tensor.p", "wb"))
+    pickle.dump(y_tensor, open(path + "data\\processed\\" + "y_tensor.p", "wb"))
 
     logging.info("Tensors created and saved")
 

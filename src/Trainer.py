@@ -11,7 +11,7 @@ import torch.utils.data as data_utils
 
 from src.Utils import load_data, train_val_test_split
 
-#Tuning
+# Tuning
 from src.Tuning import Solver
 
 path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\'
@@ -21,10 +21,10 @@ train_split = .6
 val_split = .2
 test_split = .2
 
-assert(train_split + val_split + test_split == 1)
+assert (train_split + val_split + test_split == 1)
 
 
-def train_model_shallow(model, x,y):
+def shallow_model_trainer(model, x, y):
     """
     Class that will tune the model via training and validation data. This model makes use of the solver model (taken
     from TUM i2DL/Stanford cs231n class in which a standarad model is used to tune and effectively fit the network
@@ -45,14 +45,13 @@ def train_model_shallow(model, x,y):
     """
 
     # Split the data
-    x_train, y_train, x_val, y_val, x_test, y_test = train_val_test_split(x = x.numpy(), y = y.numpy(), to_tensor=True)
+    x_train, y_train, x_val, y_val, x_test, y_test = train_val_test_split(x=x, y=, to_tensor=True)
 
-    # shallow_learning_model = KNN(3, 'uniform', 'auto')
-
+    model.train(x_train,y_train)
     # shallow_learning_model.train(x_train, y_train)
 
 
-def torch_model_trainer(x,y, batch_size = 64):
+def torch_model_trainer(x, y, batch_size=64):
     """TODO ADD RECURRENT NEURAL NETWORK BY INDIAN STUDENT"""
 
     input_size = x.shape[1]
@@ -60,7 +59,7 @@ def torch_model_trainer(x,y, batch_size = 64):
     hidden_layer_two = 24
     output_layer = 1
 
-    tf_model = FFN(input_size,hidden_layer_one,hidden_layer_two,output_layer) # .cuda()
+    tf_model = FFN(input_size, hidden_layer_one, hidden_layer_two, output_layer)  # .cuda()
 
     tf_model.cuda()
     logging.info("Model created and using CUDA support")
@@ -92,7 +91,7 @@ def torch_optimizer(model, x, y, batch_size=64):
     x_train, y_train, x_val, y_val, x_test, y_test = train_val_test_split(x=x.numpy(), y=y.numpy(), to_tensor=True)
 
     # For data loading
-    train_tensor = data_utils.TensorDataset(x_train,y_train)
+    train_tensor = data_utils.TensorDataset(x_train, y_train)
     val_tensor = data_utils.TensorDataset(x_val, y_val)
 
     train_data = DataLoader(train_tensor, batch_size=batch_size, shuffle=True, num_workers=8)
@@ -105,13 +104,11 @@ def torch_optimizer(model, x, y, batch_size=64):
     solver.train(model, train_data, val_data)
 
 
-def tensorflow_trainer(x,y):
-
+def tensorflow_trainer(x, y):
     pass
 
 
 if __name__ == "__main__":
-
     logging.basicConfig(filename=path + "Deep_Shallow_ml_devel\\reports\\ml.log", level=logging.INFO)
 
     # CUDA for PyTorch
@@ -126,4 +123,4 @@ if __name__ == "__main__":
     # Shallow Models
 
     shallow_model = KNN(3, 'uniform', 'auto')
-    train_model_shallow()
+    shallow_model_trainer(shallow_model, x, y)
