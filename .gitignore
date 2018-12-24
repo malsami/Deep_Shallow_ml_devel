@@ -1,6 +1,7 @@
-*.pkl
-*.db
+data/raw/*.pkl
+data/external/*.db
+data/raw/*.db
 *.swp
 *.pyc
-*.p
-.ipynb_checkpoints
+data/processed/*.p
+notebooks/.ipynb_checkpoints
