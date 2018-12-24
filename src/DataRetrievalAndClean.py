@@ -8,7 +8,7 @@ import sys
 
 from src.Utils import build_tensors, load_data
 
-path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\'
+path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\Deep_Shallow_ml_devel\\'
 db_name = 'panda_v1.db'
 num_tasks = 2
 
@@ -46,9 +46,11 @@ sql_queries = [
 def read_sql(num_Tasksets):
 
     sql_query = sql_queries[num_Tasksets - 1]
-    conn = sqlite3.connect(path + db_name)
+    conn = sqlite3.connect(path + "data\\raw\\" + db_name)
 
     df = pd.read_sql_query(sql_query, conn)
+
+    conn.close()
 
     logging.info("Loaded data into pandas database ")
     # Raw data for use
@@ -72,7 +74,7 @@ def clean_data (pandas_df):
 
 
 if __name__=="__main__":
-    logging.basicConfig(filename=path + "Deep_Shallow_ml_devel\\reports\\ml.log", level=logging.INFO)
+    logging.basicConfig(filename=path + "reports\\ml.log", level=logging.INFO)
     logging.info("Logger started")
 
     num_args = str(sys.argv[1])

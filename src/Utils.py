@@ -4,7 +4,7 @@ import logging
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\'
+path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\Deep_Shallow_ml_devel\\'
 
 
 def load_data():
@@ -97,7 +97,7 @@ def build_tensors(clean_df, load_dataset=False):
 
     if load_dataset:
         # clean_df = pickle.load(open("clean_raw_data.p","rb"))
-        clean_df = pd.read_pickle(path + "data\\interim\\" + "./clean_raw.pkl")
+        clean_df = pd.read_pickle(path + "data\\interim\\" + "clean_raw.pkl")
 
     training_val = clean_df
     y_tensor = torch.tensor(clean_df['Successful'].values)
