@@ -1,0 +1,70 @@
+INFO:root:Logger started
+INFO:root:Loaded data into pandas database 
+INFO:root:Data is successfully cleaned and pickled
+INFO:root:Tensors created and saved
+INFO:root:Logger started
+INFO:root:Stored data is loaded 
+INFO:root:Logger started
+INFO:root:Stored data is loaded 
+INFO:root:Logger started
+INFO:root:Logger started
+INFO:root:Loaded data into pandas database 
+INFO:root:Data is successfully cleaned and pickled
+INFO:root:Tensors created and saved
+INFO:root:Data is ready. Proceed to models
+INFO:root:Logger started
+INFO:root:Stored data is loaded 
+INFO:root:Logger started
+INFO:root:Stored data is loaded 
+INFO:root:Logger started
+INFO:root:Stored data is loaded 
+INFO:root:Logger started
+INFO:root:Stored data is loaded 
+INFO:root:Logger started
+INFO:root:Logger started
+INFO:root:Stored data is loaded 
+INFO:root:Logger started
+INFO:root:Stored data is loaded 
+INFO:root:Logger started
+INFO:root:Stored data is loaded 
+INFO:root:KNN is training
+INFO:root:Logger started
+INFO:root:Stored data is loaded 
+INFO:root:Logger started
+INFO:root:Stored data is loaded 
+INFO:root:Logger started
+INFO:root:Stored data is loaded 
+INFO:root:Logger started
+INFO:root:Logger started
+INFO:root:Loaded data into pandas database 
+INFO:root:Data is successfully cleaned and pickled
+INFO:root:Tensors created and saved
+INFO:root:Data is ready. Proceed to models
+INFO:root:Logger started
+INFO:root:Loaded data into pandas database 
+INFO:root:Data is successfully cleaned and pickled
+INFO:root:Tensors created and saved
+INFO:root:Data is ready. Proceed to models
+INFO:root:Logger started
+INFO:root:Loaded data into pandas database 
+INFO:root:Logger started
+INFO:root:Logger started
+INFO:root:Loaded data into pandas database 
+INFO:root:Data is successfully cleaned and pickled
+INFO:root:Tensors created and saved
+INFO:root:Data is ready. Proceed to models
+INFO:root:Logger started
+INFO:root:Loaded data into pandas database 
+INFO:root:Data is successfully cleaned and pickled
+INFO:root:Tensors created and saved
+INFO:root:Data is ready. Proceed to models
+INFO:root:Logger started
+INFO:root:Loaded data into pandas database 
+INFO:root:Data is successfully cleaned and pickled
+INFO:root:Tensors created and saved
+INFO:root:Data is ready. Proceed to models
+INFO:root:Logger started
+INFO:root:Loaded data into pandas database 
+INFO:root:Data is successfully cleaned and pickled
+INFO:root:Tensors created and saved
+INFO:root:Data is ready. Proceed to models
