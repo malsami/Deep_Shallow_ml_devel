@@ -69,17 +69,6 @@ def read_sql(num_tasksets):
 
     conn.close()
 
-
-
-
-
-def read_sql(num_Tasksets):
-
-    sql_query = sql_queries[num_Tasksets - 1]
-    conn = sqlite3.connect(path + db_name)
-
-    df = pd.read_sql_query(sql_query, conn)
-
     logging.info("Loaded data into pandas database ")
     # Raw data for use
     return df
@@ -87,12 +76,10 @@ def read_sql(num_Tasksets):
 
 def clean_data (pandas_df, taskset_size):
 
-
     # make a copy for safety
     raw_df = pandas_df
 
     file_name = str(taskset_size) + "_set_data.pkl"
-
 
     # COLUMNS TO DROP
     ID = ["Set_ID", "Task_ID"]
@@ -101,21 +88,19 @@ def clean_data (pandas_df, taskset_size):
     # pickle.dump(raw_df, open("clean_raw_data.p", "wb"))
     raw_df.to_pickle(path + "data//raw//" + file_name)
 
-
     logging.info("Data is successfully cleaned and pickled")
     return raw_df.drop(columns=ID + CONSTANT_VALS)
 
 
 if __name__=="__main__":
-
-    logging.basicConfig(filename=path + "Deep_Shallow_ml_devel\\reports\\ml.log", level=logging.INFO)
+    logging.basicConfig(filename=path + "reports\\ml.log", level=logging.INFO)
     logging.info("Logger started")
 
+    # User enters size of tasksets
     num_args = str(sys.argv[1])
 
     df = read_sql(int(num_args))
 
-    x, y = build_tensors(clean_data(df,num_args))
-
+    x, y = build_tensors(clean_data(df,1))
 
     logging.info("Data is ready. Proceed to models")

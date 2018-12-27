@@ -21,7 +21,6 @@ def load_data():
     data_tensor = pickle.load(open(path + "data\\processed\\" + "x_tensor.p", "rb"))
     labels_tensor = pickle.load(open(path + "data\\processed\\" + "y_tensor.p", "rb"))
 
-
     # Numpy array for sci-kit learn
     data = data_tensor.numpy()
     labels = labels_tensor.numpy()
@@ -70,7 +69,7 @@ def train_val_test_split(x, y, val_split=.2, test_split=.2, to_tensor = False):
         x_train = torch.Tensor(x_train)
         x_val = torch.Tensor(x_val)
         x_test = torch.Tensor(x_test)
-        ###
+        #######
         y_train = torch.Tensor(y_train)
         y_val = torch.Tensor(y_val)
         y_test = torch.Tensor(y_test)
@@ -102,7 +101,6 @@ def build_tensors(clean_df, load_dataset=False):
         # clean_df = pickle.load(open("clean_raw_data.p","rb"))
         clean_df = pd.read_pickle(path + "data\\interim\\" + "clean_raw.pkl")
 
-
     training_val = clean_df
     y_tensor = torch.tensor(clean_df['Successful'].values)
     training_val.drop('Successful', axis=1)
@@ -112,7 +110,6 @@ def build_tensors(clean_df, load_dataset=False):
 
     pickle.dump(x_tensor, open(path + "data\\processed\\" + "x_tensor.p", "wb"))
     pickle.dump(y_tensor, open(path + "data\\processed\\" + "y_tensor.p", "wb"))
-
 
     logging.info("Tensors created and saved")
 
