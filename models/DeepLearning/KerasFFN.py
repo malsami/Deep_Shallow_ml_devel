@@ -11,10 +11,8 @@ from keras.layers import Dense
 
 # Trying out for completeness
 class kerasFNN:
-    """
-    Class for Keras FFN with tensorflow backend
+    """Class for Keras FFN with tensorflow backend
 
-    ...
 
     Attributes
     ----------
@@ -49,8 +47,7 @@ class kerasFNN:
         model.add(Activation("softmax"))
 
     def train(self, x, y, learning_rate=0.001):
-        """
-        Compiles the static graph and the trainer together and then fits according to the inputted data
+        """Compiles the static graph and the trainer together and then fits according to the inputted data
 
         If the learning_rate argument is not provided, then the default 1e-3 is used
 
@@ -61,6 +58,7 @@ class kerasFNN:
 
         y : numpy array [N x 1]
             training set labels where each sample is either '1' or '0'.
+
 
         """
         sgd = SGD(lr=0.01)
