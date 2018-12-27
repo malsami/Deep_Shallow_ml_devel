@@ -3,10 +3,10 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.naive_bayes import BernoulliNB
 
-from models.ShallowLearning import Shallow_Model
+from models.ShallowLearning import ShallowModel
 
 
-class GaussianNaiveBayes(Shallow_Model):
+class GaussianNaiveBayes(ShallowModel):
     """
     GaussianNB wrapper function. Child of Shallow Model
 
@@ -38,7 +38,7 @@ class GaussianNaiveBayes(Shallow_Model):
         return super(GaussianNaiveBayes, self).predict(x)
 
 
-class MultinomialNaiveBayes(Shallow_Model):
+class MultinomialNaiveBayes(ShallowModel):
     """
     MultinomialNB wrapper function. Child of Shallow Model
 
@@ -70,7 +70,7 @@ class MultinomialNaiveBayes(Shallow_Model):
         return super(MultinomialNaiveBayes, self).predict(x)
 
 
-class BernoulliNaiveBayes(Shallow_Model):
+class BernoulliNaiveBayes(ShallowModel):
     """
         BernoulliNB wrapper function. Child of Shallow Model
 

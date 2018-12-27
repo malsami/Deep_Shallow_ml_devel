@@ -26,7 +26,6 @@ class ShallowModel:
     model = None
     hyperparameters = None
 
-
     def __init__(self, name):
         logging.info("Shallow Model Created: ", name)
 
@@ -80,4 +79,3 @@ class ShallowModel:
         best_model = glf.fit(x, y)
 
         return best_model
-
