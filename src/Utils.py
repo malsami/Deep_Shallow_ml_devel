@@ -10,6 +10,7 @@ path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\Deep_Shallow_ml_de
 def load_data():
     """
     Loads data from pickled files for fast access
+
     Returns
     -------
     tuple (List, List, List, List)
@@ -51,6 +52,7 @@ def train_val_test_split(x, y, val_split=.2, test_split=.2, to_tensor = False):
 
     to_tensor : boolean optional
         Whether we want the arrays to be tensors or numpy arrays. Defaulted to numpy arrays
+
     Returns
     -------
     tuple (List, List, List, List, List, List)

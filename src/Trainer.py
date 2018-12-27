@@ -45,9 +45,9 @@ def shallow_model_trainer(model, x, y):
     """
 
     # Split the data
-    x_train, y_train, x_val, y_val, x_test, y_test = train_val_test_split(x=x, y=, to_tensor=True)
+    x_train, y_train, x_val, y_val, x_test, y_test = train_val_test_split(x=x, y=y, to_tensor=True)
 
-    model.train(x_train,y_train)
+    # model.train(x_train,y_train)
     # shallow_learning_model.train(x_train, y_train)
 
 
@@ -94,8 +94,8 @@ def torch_optimizer(model, x, y, batch_size=64):
     train_tensor = data_utils.TensorDataset(x_train, y_train)
     val_tensor = data_utils.TensorDataset(x_val, y_val)
 
-    train_data = DataLoader(train_tensor, batch_size=batch_size, shuffle=True, num_workers=8)
-    val_data = DataLoader(val_tensor, batch_size=batch_size, shuffle=True, num_workers=8)
+    train_data = DataLoader(train_tensor, batch_size=batch_size, shuffle=True, num_workers=-1)
+    val_data = DataLoader(val_tensor, batch_size=batch_size, shuffle=True, num_workers=-1)
 
     logging.info("Data model loaded and ready for hyperparameter tuning")
     # Put into the solver module

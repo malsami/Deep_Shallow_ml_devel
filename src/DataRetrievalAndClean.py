@@ -12,6 +12,8 @@ path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\Deep_Shallow_ml_de
 db_name = 'panda_v1.db'
 num_tasks = 2
 
+display_all_tasks = 'Select * from Task'
+
 one_tskst_sql_query = ( 'select TaskSet.Set_ID, Task.*, TaskSet.Successful '
                         'from Task '
                         'inner join TaskSet on Task.Task_ID = TaskSet.TASK1_ID '
@@ -39,14 +41,29 @@ three_tskst_sql_query = ('select TaskSet.Set_ID, t1.*, t2.*, t3.*, TaskSet.Succe
                         )
 
 sql_queries = [
-    one_tskst_sql_query, two_tskst_sql_query, three_tskst_sql_query
+    display_all_tasks, one_tskst_sql_query, two_tskst_sql_query, three_tskst_sql_query
 ]
 
 
-def read_sql(num_Tasksets):
+def read_sql(num_tasksets):
+    """
+    Forward pass for pytorch model which computes on x (training data) as it is propogated through network.
 
-    sql_query = sql_queries[num_Tasksets - 1]
-    conn = sqlite3.connect(path + "data\\raw\\" + db_name)
+
+    Parameters
+    ----------
+    num_tasksets: int
+
+        Taskset sizes ranging from 1 to 3 (newer databases will support bigger sized tasksets
+
+    Returns
+    -------
+    df: pandas dataframe
+        Data Table of dataset in a nice easy to use/read dataframe
+    """
+
+    sql_query = sql_queries[num_tasksets]
+    conn = sqlite3.connect(path + 'data\\external\\' + db_name)
 
     df = pd.read_sql_query(sql_query, conn)
 
@@ -57,17 +74,19 @@ def read_sql(num_Tasksets):
     return df
 
 
-def clean_data (pandas_df):
+def clean_data (pandas_df, taskset_size):
 
     # make a copy for safety
     raw_df = pandas_df
+
+    file_name = str(taskset_size) + "_set_data.pkl"
 
     # COLUMNS TO DROP
     ID = ["Set_ID", "Task_ID"]
     CONSTANT_VALS = ["Deadline", "Quota", "CAPS", "PKG", "CORES", "COREOFFSET", "OFFSET"]
 
     # pickle.dump(raw_df, open("clean_raw_data.p", "wb"))
-    raw_df.to_pickle("./clean_raw.pkl")
+    raw_df.to_pickle(path + "data//raw//" + file_name)
 
     logging.info("Data is successfully cleaned and pickled")
     return raw_df.drop(columns=ID + CONSTANT_VALS)
@@ -77,10 +96,11 @@ if __name__=="__main__":
     logging.basicConfig(filename=path + "reports\\ml.log", level=logging.INFO)
     logging.info("Logger started")
 
+    # User enters size of tasksets
     num_args = str(sys.argv[1])
 
     df = read_sql(int(num_args))
 
-    x, y = build_tensors(clean_data(df))
+    x, y = build_tensors(clean_data(df,1))
 
     logging.info("Data is ready. Proceed to models")
