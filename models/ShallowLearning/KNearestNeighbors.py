@@ -20,8 +20,9 @@ class KNN(ShallowModel):
     def predict(self, x):
         super(KNN, self).predict(x)
 
-    def optimize(self,x,y,cv):
+    def optimize(self, x, y, cv, verbose=0):
         k_range = list(range(1, 31))
+        print("Grid search in progress")
         self.hyperparameters = dict(n_neighbors=k_range)
         bf = super(KNN, self).optimize(x, y, cv=cv)
         print("Best n_neighbors: ", bf.best_estimator_.get_params()["n_neighbors"])
@@ -29,5 +30,3 @@ class KNN(ShallowModel):
     def analyze(self):
         pass
 
-    def optimize(self):
-        pass

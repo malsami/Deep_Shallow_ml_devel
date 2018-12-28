@@ -25,7 +25,7 @@ class kerasFNN:
     """
     model = None
 
-    def __init__(self, hidden_layer_1=768, hidden_layer_2=364, output_layer=1):
+    def __init__(self, input_layer, hidden_layer_1=768, hidden_layer_2=364, output_layer=1):
         """
         Parameters
         ----------
@@ -39,12 +39,12 @@ class kerasFNN:
             Default to 1 because of binary classification
         """
 
-        model = Sequential()
-        model.add(Dense(768, input_dim=x.shape[1], kernel_initializer="uniform",
+        self.model = Sequential()
+        self.model.add(Dense(768, input_dim=input_layer, kernel_initializer="uniform",
                         activation="relu"))
-        model.add(Dense(384, activation="relu", kernel_initializer="uniform"))
-        model.add(Dense(1))
-        model.add(Activation("softmax"))
+        self.model.add(Dense(384, activation="relu", kernel_initializer="uniform"))
+        self.model.add(Dense(1))
+        self.model.add(Activation("softmax"))
 
     def train(self, x, y, learning_rate=0.001):
         """Compiles the static graph and the trainer together and then fits according to the inputted data

@@ -1,8 +1,9 @@
 import pickle
 import logging
 import torch
+# Deep Learning
 from models.DeepLearning.FFN import FFN
-
+from models.DeepLearning.KerasFFN import kerasFNN
 # Shallow Learning
 from models.ShallowLearning.ShallowModel import ShallowModel
 from models.ShallowLearning.LogisticRegression import LogRegress
@@ -27,7 +28,7 @@ assert (train_split + val_split + test_split == 1)
 
 
 
-def shallow_model_trainer(model, x, y):
+def shallow_model_trainer(s_model, x, y):
     """
     Class that will tune the model via training and validation data. This model makes use of the solver model (taken
     from TUM i2DL/Stanford cs231n class in which a standarad model is used to tune and effectively fit the network
@@ -36,7 +37,7 @@ def shallow_model_trainer(model, x, y):
 
     Parameters
     ----------
-    model: Sci-kit learn model
+    s_model: Sci-kit learn model
         Sci-kit model to optimize
 
     x : numpy array [N x D]
@@ -52,7 +53,8 @@ def shallow_model_trainer(model, x, y):
 
     # model.train(x_train,y_train)
     # shallow_learning_model.train(x_train, y_train)
-    model.optimize(x,y,cv = 5)
+    s_model.optimize(x,y,cv = 5)
+
 
 
 def torch_model_trainer(x, y, batch_size=64):
@@ -120,12 +122,27 @@ if __name__ == "__main__":
     device = torch.device("cuda:0" if use_cuda else "cpu")
 
     logging.info("Logger started")
+    # Tensors for torch, regular for sci-kit learn and keras/tensorflow
     x_tensor, x, y_tensor, y = load_data()
     # train_model(x, y, .01)
+
+    # Deep Learning (Torch)
+    # deep_model = FFN(input_size=x.shape[1], hidden_size_1=16,hidden_size_2=24,num_classes=1)
+    # torch_optimizer(deep_model,x_tensor,y_tensor)
+
+    # Keras/Tensorflow (This has nice front end) works better in Jupyter notebook though
+    # deep_model = kerasFNN(input_layer=x.shape[1], hidden_layer_1=768,hidden_layer_2=364,output_layer=1)
+    # deep_model.train(x,y)
+
 
 
     # Shallow Models
 
+
+    # Replace with appropriate shallow learnign model and then train
     shallow_model = KNN(3)
 
+    # shallow_model.optimize(x,y,5)
+
+    # For either trainign or optimization
     shallow_model_trainer(shallow_model, x, y)
