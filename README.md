@@ -21,4 +21,9 @@ The Machine Learning models can be found in /models/*
 
 The scripts can be run via the python files or ipynb notebooks. The notebooks load the appropriate functions from the
 *.py files. Jupyter notebooks are convenient because of the quick results and graphical interface. In terms of functionality
-they are both the same.
+they are both the same. Notebooks are in the *notebooks* folder but are not fully configured yet. 
+
+To retrieve the data and build files, put the *pandas* database in the *data/external* folder and then run the script 
+*python DataRetrievalAndClean.py [taskset_size]* where *taskset_size* is a number from 1-3. 
+
+The file *Trainer.py* is for machine learning training. See the file for more information. 
