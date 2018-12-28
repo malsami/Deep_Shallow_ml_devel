@@ -27,7 +27,7 @@ class ShallowModel:
     hyperparameters = None
 
     def __init__(self, name):
-        logging.info("Shallow Model Created: ", name)
+        logging.info("Shallow Model Created: %s", name)
 
     def train(self, x, y):
         self.model.fit(x, y)

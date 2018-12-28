@@ -1,6 +1,6 @@
 from sklearn import svm
 
-from models.ShallowLearning import ShallowModel
+from models.ShallowLearning.ShallowModel import ShallowModel
 
 svm_tuned_parameters = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4],
                          'C': [1, 10, 100, 1000]},
@@ -45,4 +45,4 @@ class SVM(ShallowModel):
         C = [1, 10, 100, 1000]
         degree = [3, 4, 5]
         self.hyperparameters = dict(kernel=kernel, C=C, degree=degree)
-        super(SVM, self).optimize(x, y, cv)
+        bf = super(SVM, self).optimize(x, y, cv)

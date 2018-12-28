@@ -2,11 +2,12 @@ from sklearn.neighbors import KNeighborsClassifier
 import logging
 
 # Super Class
-from models.ShallowLearning import ShallowModel
+from models.ShallowLearning.ShallowModel import ShallowModel
 
 
 class KNN(ShallowModel):
     model = None
+    hyperparameters = None
 
     def __init__(self, num_neighbors, k_weights='uniform', k_algorithm='auto'):
         super(KNN, self).__init__(name="KNN with " + str(num_neighbors) + " neighbors")
@@ -18,6 +19,12 @@ class KNN(ShallowModel):
 
     def predict(self, x):
         super(KNN, self).predict(x)
+
+    def optimize(self,x,y,cv):
+        k_range = list(range(1, 31))
+        self.hyperparameters = dict(n_neighbors=k_range)
+        bf = super(KNN, self).optimize(x, y, cv=cv)
+        print("Best n_neighbors: ", bf.best_estimator_.get_params()["n_neighbors"])
 
     def analyze(self):
         pass

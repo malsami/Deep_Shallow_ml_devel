@@ -2,9 +2,11 @@ import pickle
 import logging
 import torch
 from models.DeepLearning.FFN import FFN
-from models.ShallowLearning.KNearestNeighbors import KNN
-from sklearn.model_selection import train_test_split
 
+# Shallow Learning
+from models.ShallowLearning.ShallowModel import ShallowModel
+from models.ShallowLearning.LogisticRegression import LogRegress
+from models.ShallowLearning.KNearestNeighbors import KNN
 # Efficient Data Loading
 from torch.utils.data import Dataset, DataLoader
 import torch.utils.data as data_utils
@@ -24,6 +26,7 @@ test_split = .2
 assert (train_split + val_split + test_split == 1)
 
 
+
 def shallow_model_trainer(model, x, y):
     """
     Class that will tune the model via training and validation data. This model makes use of the solver model (taken
@@ -33,8 +36,8 @@ def shallow_model_trainer(model, x, y):
 
     Parameters
     ----------
-    model: Torch model
-        Torch model to optimize
+    model: Sci-kit learn model
+        Sci-kit model to optimize
 
     x : numpy array [N x D]
         training set samples where n is number of samples and d is the dimension of each sample
@@ -49,6 +52,7 @@ def shallow_model_trainer(model, x, y):
 
     # model.train(x_train,y_train)
     # shallow_learning_model.train(x_train, y_train)
+    model.optimize(x,y,cv = 5)
 
 
 def torch_model_trainer(x, y, batch_size=64):
@@ -122,5 +126,6 @@ if __name__ == "__main__":
 
     # Shallow Models
 
-    shallow_model = KNN(3, 'uniform', 'auto')
+    shallow_model = KNN(3)
+
     shallow_model_trainer(shallow_model, x, y)

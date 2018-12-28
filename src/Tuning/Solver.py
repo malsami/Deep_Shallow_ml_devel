@@ -1,17 +1,13 @@
 import torch
 from torch.autograd import Variable
 
+
 # Adapted from deep learning class I2DL exercise assignments
 
 # This is a large hyperparameter tuning.
-<<<<<<< HEAD
 
 
 class Solver(object):
-
-=======
-class Solver(object):
->>>>>>> d7e7dcdc28bf4131f091e9843c854b44829b32c1
     default_adam_args = {"lr": 1e-2,
                          "betas": (.75, 0.9, 0.999),
                          "eps": 1e-8,

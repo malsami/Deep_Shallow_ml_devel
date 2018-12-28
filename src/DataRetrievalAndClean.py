@@ -101,6 +101,6 @@ if __name__=="__main__":
 
     df = read_sql(int(num_args))
 
-    x, y = build_tensors(clean_data(df,1))
+    x, y = build_tensors(clean_data(df, num_args))
 
     logging.info("Data is ready. Proceed to models")

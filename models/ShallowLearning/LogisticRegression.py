@@ -1,8 +1,9 @@
 from sklearn.linear_model import LogisticRegression
-from models.ShallowLearning import ShallowModel
+from models.ShallowLearning.ShallowModel import ShallowModel
 
 import numpy as np
-
+import logging
+from src.Utils import path
 
 class LogRegress(ShallowModel):
     """ LogisticRegression wrapper function. Child of Shallow Model
@@ -30,6 +31,8 @@ class LogRegress(ShallowModel):
     def __init__(self, l_penalty='l2', l_C=1.0, l_solver='liblinear', l_max_iter=1000, multi_class='auto', n_jobs=1):
         super(LogRegress, self).__init__(name="Logistic Regression")
         self.model = LogisticRegression(solver=l_solver, max_iter=l_max_iter, multi_class=multi_class, n_jobs=n_jobs)
+        logging.basicConfig(filename=path + "reports\\" + "log_reg.log", level=logging.info)
+        logging.info("Logistic Regression Log created")
 
     def train(self, x, y):
         super(LogRegress, self).train(x, y)
@@ -44,3 +47,7 @@ class LogRegress(ShallowModel):
         bf = super(LogRegress, self).optimize(x, y, cv=cv)
         print("Best Penalty: ", bf.best_estimator_.get_params()['penalty'])
         print("Best C: ", bf.best_estimator_.get_params()['C'])
+
+    def stub(self):
+        x = 5
+        logging.info("This is a stub: %d", x)

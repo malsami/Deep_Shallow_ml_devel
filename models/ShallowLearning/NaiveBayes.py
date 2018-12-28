@@ -3,7 +3,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.naive_bayes import BernoulliNB
 
-from models.ShallowLearning import ShallowModel
+from models.ShallowLearning.ShallowModel import ShallowModel
 
 
 class GaussianNaiveBayes(ShallowModel):
