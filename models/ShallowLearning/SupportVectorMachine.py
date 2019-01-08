@@ -29,10 +29,11 @@ class SVM(ShallowModel):
     model = None
     hyperparameters = None
 
-    def __init__(self, C_Penalty, s_kernel, s_degree, s_kernel_cache_size, s_tolerance, s_class_weight, s_gamma
+    def __init__(self, c_penalty, s_kernel, s_degree, s_kernel_cache_size, s_tolerance, s_class_weight, s_gamma
                  ):
-        super(SVM, self).__init__(self, name="Support Vector Machine")
-        self.model = svm.SVC()
+        super(SVM, self).__init__(name="SVM")
+        self.model = svm.SVC(kernel=s_kernel, degree=s_degree, cache_size=s_kernel_cache_size, tol=s_tolerance,
+                             class_weight=s_class_weight, gamma=s_gamma)
 
     def train(self, x, y):
         super(SVM, self).train(x, y)

@@ -26,10 +26,10 @@ def load_data():
     labels = labels_tensor.numpy()
     logging.info("Stored data is loaded ")
 
-    return data_tensor, data, labels_tensor, labels
+    return data_tensor, data.astype(float), labels_tensor, labels.astype(float)
 
 
-def train_val_test_split(x, y, val_split=.2, test_split=.2, to_tensor = False):
+def train_val_test_split(x, y, val_split=.2, test_split=.2, to_tensor=False):
     """
     Splits according to train,validation,test
 

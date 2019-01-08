@@ -40,6 +40,9 @@ class RandomForest(ShallowModel):
     def train(self, x, y):
         super(RandomForest, self).train(x, y)
 
+    def fit(self, x, y):
+        super(RandomForest, self).train(x, y)
+
     def predict(self, x):
         return super(RandomForest, self).predict(x)
 

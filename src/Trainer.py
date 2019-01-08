@@ -8,6 +8,8 @@ from models.DeepLearning.KerasFFN import kerasFNN
 from models.ShallowLearning.ShallowModel import ShallowModel
 from models.ShallowLearning.LogisticRegression import LogRegress
 from models.ShallowLearning.KNearestNeighbors import KNN
+from models.ShallowLearning.RandomForest import RandomForest
+from models.ShallowLearning.SupportVectorMachine import SVM
 # Efficient Data Loading
 from torch.utils.data import Dataset, DataLoader
 import torch.utils.data as data_utils
@@ -25,7 +27,6 @@ val_split = .2
 test_split = .2
 
 assert (train_split + val_split + test_split == 1)
-
 
 
 def shallow_model_trainer(s_model, x, y):
@@ -52,9 +53,10 @@ def shallow_model_trainer(s_model, x, y):
     x_train, y_train, x_val, y_val, x_test, y_test = train_val_test_split(x=x, y=y, to_tensor=True)
 
     # model.train(x_train,y_train)
-    # shallow_learning_model.train(x_train, y_train)
-    s_model.optimize(x,y,cv = 5)
+    s_model.train(x_train, y_train)
+    # s_model.optimize(x,y,cv = 5)
 
+    return s_model
 
 
 def torch_model_trainer(x, y, batch_size=64):
@@ -139,10 +141,14 @@ if __name__ == "__main__":
     # Shallow Models
 
 
-    # Replace with appropriate shallow learnign model and then train
-    shallow_model = KNN(3)
+    # Unccomment one at a time
+    # shallow_model = KNN(3)
+    # shallow_model = LogRegress()
+    # shallow_model = SVM()
+    shallow_model = RandomForest()
 
-    # shallow_model.optimize(x,y,5)
+    shallow_model.optimize(x,y,2)
 
     # For either trainign or optimization
-    shallow_model_trainer(shallow_model, x, y)
+    # trained_model = shallow_model_trainer(shallow_model, x, y)
+
