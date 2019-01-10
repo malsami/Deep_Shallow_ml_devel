@@ -4,7 +4,7 @@ import logging
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\Deep_Shallow_ml_devel\\'
+path = '../'
 
 
 def load_data():
@@ -18,8 +18,8 @@ def load_data():
        """
 
     # For Deep Learning
-    data_tensor = pickle.load(open(path + "data\\processed\\" + "x_tensor.p", "rb"))
-    labels_tensor = pickle.load(open(path + "data\\processed\\" + "y_tensor.p", "rb"))
+    data_tensor = pickle.load(open(path + "data/processed/" + "x_tensor.p", "rb"))
+    labels_tensor = pickle.load(open(path + "data/processed/" + "y_tensor.p", "rb"))
 
     # Numpy array for sci-kit learn
     data = data_tensor.numpy()
@@ -60,10 +60,10 @@ def train_val_test_split(x, y, val_split=.2, test_split=.2, to_tensor=False):
     """
 
     # Intermediate split between train and test data
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=test_split, random_state=42, shuffle = True)
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=test_split, random_state=42, shuffle=True)
 
     # Split part of training set
-    x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=val_split, random_state=42, shuffle = True)
+    x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=val_split, random_state=42, shuffle=True)
 
     if to_tensor :
         x_train = torch.Tensor(x_train)
@@ -86,7 +86,7 @@ def build_tensors(clean_df, load_dataset=False):
 
     Parameters
     ----------
-    clean_df: pandas datarame
+    clean_df: pandas dataframe
         data that is assumed to already be preprocessed
     load_dataset : bool optional
         Whether user wants to load in the pandas dataframe from before or pass his own in
@@ -99,7 +99,7 @@ def build_tensors(clean_df, load_dataset=False):
 
     if load_dataset:
         # clean_df = pickle.load(open("clean_raw_data.p","rb"))
-        clean_df = pd.read_pickle(path + "data\\interim\\" + "clean_raw.pkl")
+        clean_df = pd.read_pickle(path + "data/interim/" + "clean_raw.pkl")
 
     training_val = clean_df
     y_tensor = torch.tensor(clean_df['Successful'].values)
@@ -108,8 +108,8 @@ def build_tensors(clean_df, load_dataset=False):
     # Check pandas selecting all but one column
     x_tensor = torch.tensor(training_val.values)
 
-    pickle.dump(x_tensor, open(path + "data\\processed\\" + "x_tensor.p", "wb"))
-    pickle.dump(y_tensor, open(path + "data\\processed\\" + "y_tensor.p", "wb"))
+    pickle.dump(x_tensor, open(path + "data/processed/" + "x_tensor.p", "wb"))
+    pickle.dump(y_tensor, open(path + "data/processed/" + "y_tensor.p", "wb"))
 
     logging.info("Tensors created and saved")
 

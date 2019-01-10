@@ -1,16 +1,16 @@
 import sqlite3
 import pandas as pd
 import torch
-from torch.utils.serialization import load_lua
+# from torch.utils.serialization import load_lua
 import pickle
 import logging
 import sys
 
 from src.Utils import build_tensors, load_data
 
-path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\Deep_Shallow_ml_devel\\'
+path = '../'
 db_name = 'panda_v1.db'
-num_tasks = 2
+num_tasks = 1
 
 display_all_tasks = 'Select * from Task'
 
@@ -63,7 +63,7 @@ def read_sql(num_tasksets):
     """
 
     sql_query = sql_queries[num_tasksets]
-    conn = sqlite3.connect(path + 'data\\external\\' + db_name)
+    conn = sqlite3.connect(path + 'data/external/' + db_name)
 
     df = pd.read_sql_query(sql_query, conn)
 
@@ -86,14 +86,14 @@ def clean_data (pandas_df, taskset_size):
     CONSTANT_VALS = ["Deadline", "Quota", "CAPS", "PKG", "CORES", "COREOFFSET", "OFFSET"]
 
     # pickle.dump(raw_df, open("clean_raw_data.p", "wb"))
-    raw_df.to_pickle(path + "data//raw//" + file_name)
+    raw_df.to_pickle(path + "data/raw/" + file_name)
 
     logging.info("Data is successfully cleaned and pickled")
     return raw_df.drop(columns=ID + CONSTANT_VALS)
 
 
 if __name__=="__main__":
-    logging.basicConfig(filename=path + "reports\\ml.log", level=logging.INFO)
+    logging.basicConfig(filename=path + "reports//ml.log", level=logging.INFO)
     logging.info("Logger started")
 
     # User enters size of tasksets

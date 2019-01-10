@@ -19,6 +19,10 @@ from src.Utils import load_data, train_val_test_split
 # Tuning
 from src.Tuning import Solver
 
+# Validation
+from sklearn.model_selection import cross_val_score
+
+
 path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\'
 
 # Splits
@@ -27,6 +31,25 @@ val_split = .2
 test_split = .2
 
 assert (train_split + val_split + test_split == 1)
+
+
+def cross_validation_scoring(shallow_model,x,y):
+    """
+       Class that will use kfold validation for scoring
+
+       Parameters
+       ----------
+       s_model: Sci-kit learn model
+           Sci-kit model to optimize
+
+       x : numpy array [N x D]
+           training set samples where n is number of samples and d is the dimension of each sample
+
+       y : numpy array [N x 1]
+           training set labels where each sample is either '1' or '0'.
+
+       """
+
 
 
 def shallow_model_trainer(s_model, x, y):
