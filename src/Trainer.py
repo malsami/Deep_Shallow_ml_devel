@@ -17,13 +17,13 @@ import torch.utils.data as data_utils
 from src.Utils import load_data, train_val_test_split
 
 # Tuning
-from src.Tuning import Solver
+from src.Tuning.Solver import Solver
 
 # Validation
 from sklearn.model_selection import cross_val_score
 
 
-path = 'C:\\Users\\Varun\\Documents\\Misc\\Research\\MalSami\\'
+path = '../'
 
 # Splits
 train_split = .6
@@ -33,7 +33,7 @@ test_split = .2
 assert (train_split + val_split + test_split == 1)
 
 
-def cross_validation_scoring(shallow_model,x,y):
+def cross_validation_scoring(shallow_model,x,y, cv = 10):
     """
        Class that will use kfold validation for scoring
 
@@ -48,8 +48,13 @@ def cross_validation_scoring(shallow_model,x,y):
        y : numpy array [N x 1]
            training set labels where each sample is either '1' or '0'.
 
+        Returns
+        ---------
+        numpy array [cv x 1]
+            scores where each element is the score for the particular 'fold'
        """
 
+    return cross_val_score(shallow_model.model, x, y, cv=cv)
 
 
 def shallow_model_trainer(s_model, x, y):
@@ -82,7 +87,7 @@ def shallow_model_trainer(s_model, x, y):
     return s_model
 
 
-def torch_model_trainer(x, y, batch_size=64):
+def torch_model_trainer(x, y, batch_size=4):
     """TODO ADD RECURRENT NEURAL NETWORK BY INDIAN STUDENT"""
 
     input_size = x.shape[1]
@@ -125,8 +130,8 @@ def torch_optimizer(model, x, y, batch_size=64):
     train_tensor = data_utils.TensorDataset(x_train, y_train)
     val_tensor = data_utils.TensorDataset(x_val, y_val)
 
-    train_data = DataLoader(train_tensor, batch_size=batch_size, shuffle=True, num_workers=-1)
-    val_data = DataLoader(val_tensor, batch_size=batch_size, shuffle=True, num_workers=-1)
+    train_data = DataLoader(train_tensor, batch_size=batch_size, shuffle=True)
+    val_data = DataLoader(val_tensor, batch_size=batch_size, shuffle=True)
 
     logging.info("Data model loaded and ready for hyperparameter tuning")
     # Put into the solver module
@@ -140,7 +145,7 @@ def tensorflow_trainer(x, y):
 
 
 if __name__ == "__main__":
-    logging.basicConfig(filename=path + "Deep_Shallow_ml_devel\\reports\\ml.log", level=logging.INFO)
+    logging.basicConfig(filename=path + "reports/ml.log", level=logging.INFO)
 
     # CUDA for PyTorch
     use_cuda = torch.cuda.is_available()
@@ -152,9 +157,9 @@ if __name__ == "__main__":
     # train_model(x, y, .01)
 
     # Deep Learning (Torch)
-    # deep_model = FFN(input_size=x.shape[1], hidden_size_1=16,hidden_size_2=24,num_classes=1)
-    # torch_optimizer(deep_model,x_tensor,y_tensor)
-
+    deep_model = FFN(input_size=x.shape[1], hidden_size_1=16,hidden_size_2=24,num_classes=2)
+    torch_optimizer(deep_model,x_tensor,y_tensor, batch_size=4)
+    print("Optimization done")
     # Keras/Tensorflow (This has nice front end) works better in Jupyter notebook though
     # deep_model = kerasFNN(input_layer=x.shape[1], hidden_layer_1=768,hidden_layer_2=364,output_layer=1)
     # deep_model.train(x,y)
@@ -168,9 +173,9 @@ if __name__ == "__main__":
     # shallow_model = KNN(3)
     # shallow_model = LogRegress()
     # shallow_model = SVM()
-    shallow_model = RandomForest()
+    # shallow_model = RandomForest()
 
-    shallow_model.optimize(x,y,2)
+    # shallow_model.optimize(x,y,2)
 
     # For either trainign or optimization
     # trained_model = shallow_model_trainer(shallow_model, x, y)

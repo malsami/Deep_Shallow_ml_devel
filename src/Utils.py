@@ -4,10 +4,23 @@ import logging
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+# Normalization
+from sklearn.preprocessing import normalize
+
+
 path = '../'
+db_names = ['panda_v1.db', 'panda_v2.db']
+
+def combine_datasets():
+    """
+    Combines the datasets of different tasksets sizes
+    Returns
+    ----------
+    """
+    pass
 
 
-def load_data():
+def load_data(db_index=2, taskset_size= 3):
     """
     Loads data from pickled files for fast access
 
@@ -17,9 +30,11 @@ def load_data():
            data as tensors and as regular numpy arrays
        """
 
+    db_name = db_names[db_index - 1]
+
     # For Deep Learning
-    data_tensor = pickle.load(open(path + "data/processed/" + "x_tensor.p", "rb"))
-    labels_tensor = pickle.load(open(path + "data/processed/" + "y_tensor.p", "rb"))
+    data_tensor = pickle.load(open(path + "data/processed/" + db_name + "_" + str(taskset_size) +"_x_tensor.p", "rb"))
+    labels_tensor = pickle.load(open(path + "data/processed/" + db_name + "_" + str(taskset_size) + "_y_tensor.p", "rb"))
 
     # Numpy array for sci-kit learn
     data = data_tensor.numpy()
@@ -80,12 +95,14 @@ def train_val_test_split(x, y, val_split=.2, test_split=.2, to_tensor=False):
     return x_train, y_train, x_val, y_val, x_test, y_test
 
 
-def build_tensors(clean_df, load_dataset=False):
+def build_tensors(db_name, clean_df=None, taskset_size=0, load_dataset=False):
     """
     Turn data into pytorch tensors for deep learning training. Also pickles to file for convenience later
 
     Parameters
     ----------
+    db_name: String
+        Name of the selected database, chosen by the user
     clean_df: pandas dataframe
         data that is assumed to already be preprocessed
     load_dataset : bool optional
@@ -98,19 +115,19 @@ def build_tensors(clean_df, load_dataset=False):
     """
 
     if load_dataset:
-        # clean_df = pickle.load(open("clean_raw_data.p","rb"))
-        clean_df = pd.read_pickle(path + "data/interim/" + "clean_raw.pkl")
+        clean_df = pd.read_pickle(path + "data/raw/" + db_name + "_" + str(taskset_size) + "_set_data.pkl")
 
     training_val = clean_df
     y_tensor = torch.tensor(clean_df['Successful'].values)
-    training_val.drop('Successful', axis=1)
+    training_val.drop(columns=['Successful'], axis=1, inplace=True)
 
-    # Check pandas selecting all but one column
-    x_tensor = torch.tensor(training_val.values)
+    # Normalize the training data and then tensorize it
+    x_norm = normalize(training_val.values)
+    x_tensor = torch.tensor(x_norm)
 
-    pickle.dump(x_tensor, open(path + "data/processed/" + "x_tensor.p", "wb"))
-    pickle.dump(y_tensor, open(path + "data/processed/" + "y_tensor.p", "wb"))
+    pickle.dump(x_tensor, open(path + "data/processed/" + str(db_name) + "_" + str(taskset_size) + "_x_tensor.p", "wb"))
+    pickle.dump(y_tensor, open(path + "data/processed/" + str(db_name) + "_" + str(taskset_size) + "_y_tensor.p", "wb"))
 
     logging.info("Tensors created and saved")
 
-    return x_tensor, y_tensor
+    return x_tensor, y_tensor, x_tensor.numpy(), y_tensor.numpy()

@@ -6,10 +6,9 @@ import pickle
 import logging
 import sys
 
-from src.Utils import build_tensors, load_data
+from src.Utils import build_tensors, load_data, db_names
 
 path = '../'
-db_name = 'panda_v1.db'
 num_tasks = 1
 
 display_all_tasks = 'Select * from Task'
@@ -45,7 +44,7 @@ sql_queries = [
 ]
 
 
-def read_sql(num_tasksets):
+def read_sql(num_tasksets, db):
     """
     Forward pass for pytorch model which computes on x (training data) as it is propogated through network.
 
@@ -56,6 +55,8 @@ def read_sql(num_tasksets):
 
         Taskset sizes ranging from 1 to 3 (newer databases will support bigger sized tasksets
 
+    db : string
+        The database name that the user decides to use
     Returns
     -------
     df: pandas dataframe
@@ -63,9 +64,10 @@ def read_sql(num_tasksets):
     """
 
     sql_query = sql_queries[num_tasksets]
-    conn = sqlite3.connect(path + 'data/external/' + db_name)
+    conn = sqlite3.connect(path + 'data/external/' + db)
 
-    df = pd.read_sql_query(sql_query, conn)
+    df = pd.read_sql(sql_query, conn)
+
 
     conn.close()
 
@@ -74,7 +76,7 @@ def read_sql(num_tasksets):
     return df
 
 
-def clean_data (pandas_df, taskset_size):
+def clean_data (pandas_df, db, taskset_size):
 
     # make a copy for safety
     raw_df = pandas_df
@@ -86,7 +88,7 @@ def clean_data (pandas_df, taskset_size):
     CONSTANT_VALS = ["Deadline", "Quota", "CAPS", "PKG", "CORES", "COREOFFSET", "OFFSET"]
 
     # pickle.dump(raw_df, open("clean_raw_data.p", "wb"))
-    raw_df.to_pickle(path + "data/raw/" + file_name)
+    raw_df.to_pickle(path + "data/raw/" + db + "_" + file_name)
 
     logging.info("Data is successfully cleaned and pickled")
     return raw_df.drop(columns=ID + CONSTANT_VALS)
@@ -96,11 +98,16 @@ if __name__=="__main__":
     logging.basicConfig(filename=path + "reports//ml.log", level=logging.INFO)
     logging.info("Logger started")
 
+    db_idx = input("Choose DB Version (1 for panda_v1, 2 for panda_v2, ...)\n")
+    taskset_size_selection = input("Choose the Taskset size (1,2,3)\n")
+    # -1 is for the indexing
+    db_name = db_names[int(db_idx) - 1]
     # User enters size of tasksets
-    num_args = str(sys.argv[1])
+    # num_args = sys.argv[1]
 
-    df = read_sql(int(num_args))
-
-    x, y = build_tensors(clean_data(df, num_args))
+    df = read_sql(int(taskset_size_selection), db_name)
+    logging.info("DB selected: %s Taskset Size: %s", db_name, taskset_size_selection)
+    clean_df = clean_data(df, db_name, taskset_size_selection)
+    x, y, _, _ = build_tensors(db_name, clean_df, taskset_size_selection)
 
     logging.info("Data is ready. Proceed to models")
