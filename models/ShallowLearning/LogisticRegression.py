@@ -38,7 +38,7 @@ class LogRegress(ShallowModel):
         super(LogRegress, self).train(x, y)
 
     def predict(self, x):
-        super(LogRegress, self).predict(x)
+        return super(LogRegress, self).predict(x)
 
     def optimize(self, x, y, cv=5, verbose=0):
         penalty = ['l1', 'l2']
