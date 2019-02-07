@@ -10,3 +10,4 @@ setuptools
 scipy
 cython
 scikit-garden
+tqdm
