@@ -6,4 +6,7 @@ torchvision
 tensorflow-gpu
 keras
 keras-pandas
-
+setuptools
+scipy
+cython
+scikit-garden
