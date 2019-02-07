@@ -6,7 +6,8 @@ import pickle
 import logging
 import sys
 
-from src.Utils import build_tensors, load_data, db_names
+# from src.Utils import build_tensors, load_data, db_names
+from Utils import build_tensors, load_data, db_names
 
 path = '../'
 num_tasks = 1
@@ -110,4 +111,5 @@ if __name__=="__main__":
     clean_df = clean_data(df, db_name, taskset_size_selection)
     x, y, _, _ = build_tensors(db_name, clean_df, taskset_size_selection)
 
-    logging.info("Data is ready. Proceed to models")
+    logging.info("Data successfully loaded. Ready for Training.")
+    print("Data is ready. Proceed to models")
