@@ -11,3 +11,4 @@ scipy
 cython
 scikit-garden
 tqdm
+pylint
