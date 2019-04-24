@@ -46,7 +46,7 @@ val_data = data_utils.DataLoader(val_tensor,
                                     batch_size=len(y_val), 
                                     shuffle=True)
 
-model = torch.load('models/trained_modelE220PandaV3')
+model = torch.load('models/trained_model')
 model.to(device)
 
 def tell_me_more(currentEpoch, totalEpochs, currentBatch, totalBatches, currentLoss, labels, outputs):
