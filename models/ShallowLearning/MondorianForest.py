@@ -1,4 +1,4 @@
-from skgarden import RandomForestQuantileRegressor
+from skgarden import MondrianForestClassifier
 from models.ShallowLearning.ShallowModel import ShallowModel
 import logging
 from src.Utils import path
@@ -11,7 +11,7 @@ class MondorianForest(ShallowModel):
 
     def __init__(self, rf_estimators=15, rf_max_depth=2, rf_n_jobs=-1):
         super(MondorianForest, self).__init__(name="Mondorian Forest")
-        self.model = MondorianForest()
+        self.model = MondrianForestClassifier()
         logging.basicConfig(filename=path + "reports\\" + "mf.log", level=logging.info)
         logging.info("Mondorian Forest Log created")
 

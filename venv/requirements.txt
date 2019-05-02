@@ -12,3 +12,4 @@ cython
 scikit-garden
 tqdm
 pylint
+matplotlib

@@ -44,10 +44,13 @@ class LogRegress(ShallowModel):
         penalty = ['l1', 'l2']
         C = np.logspace(0, 4, 10)
         self.hyperparameters = dict(C=C, penalty=penalty)
+
+        # Current Best
+        # Penalty: L1
+        # Best C: 1291.5496650148827
         bf = super(LogRegress, self).optimize(x, y, cv=cv)
         print("Best Penalty: ", bf.best_estimator_.get_params()['penalty'])
         print("Best C: ", bf.best_estimator_.get_params()['C'])
 
-    def stub(self):
-        x = 5
-        logging.info("This is a stub: %d", x)
+    def analyze(self):
+        pass 
